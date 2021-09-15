@@ -101,6 +101,7 @@ public final class VKPinCodeView: UIView {
         didSet { createLabels() }
     }
     
+    public var textModifier: ((String)->(String))?
     
     // MARK: - Initializers
 
@@ -207,8 +208,11 @@ public final class VKPinCodeView: UIView {
             highlightActiveLabel(index)
         }
         else {
-            
-            appendChar(text)
+            if let modifier = self.textModifier {
+                appendChar(modifier(text))
+            } else {
+                appendChar(text)
+            }
             let index = _code.count - 1
             highlightActiveLabel(index)
         }
