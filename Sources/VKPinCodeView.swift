@@ -209,9 +209,9 @@ public final class VKPinCodeView: UIView {
         }
         else {
             if let modifier = self.textModifier {
-                appendChar(modifier(text))
+                appendText(modifier(text))
             } else {
-                appendChar(text)
+                appendText(text)
             }
             let index = _code.count - 1
             highlightActiveLabel(index)
@@ -242,6 +242,19 @@ public final class VKPinCodeView: UIView {
         activeLabel.text = String(text[charIndex])
         _code += activeLabel.text!
     }
+    
+    
+    private func appendText(_ text: String) {
+        if text.isEmpty { return }
+        for index in 0..<text.count {
+            let label = _stack.arrangedSubviews[index] as! UILabel
+            let charIndex = text.index(text.startIndex, offsetBy: index)
+            label.text = String(text[charIndex])
+        }
+        let index = text.count - 1
+        _code = text;
+    }
+    
     
     private func highlightActiveLabel(_ activeIndex: Int) {
         
