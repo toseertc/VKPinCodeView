@@ -246,12 +246,17 @@ public final class VKPinCodeView: UIView {
     
     private func appendText(_ text: String) {
         if text.isEmpty { return }
+        if let validator = validator {
+            if !validator(text) {
+                resetCode()
+                return
+            }
+        }
         for index in 0..<text.count {
             let label = _stack.arrangedSubviews[index] as! UILabel
             let charIndex = text.index(text.startIndex, offsetBy: index)
             label.text = String(text[charIndex])
         }
-        let index = text.count - 1
         _code = text;
     }
     
